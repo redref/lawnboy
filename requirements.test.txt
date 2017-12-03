@@ -1,0 +1,4 @@
+-e .
+pytest==3.0.1
+pytest-cov==2.2.1
+pytest-pep8==1.0.5
