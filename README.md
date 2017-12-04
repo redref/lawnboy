@@ -21,18 +21,22 @@ TODO: Go further into this paper.
 ### Installation
 
 ```
-pip install .
+pip install git+https://github.com/redref/lawnboy.git@master
 ```
 
 ### CLI usage
 
 ```
-lawnboy -W <lawn_width> -H <lawn_height> -m <XYO> [<XYO>]
+lawnboy -W <lawn_width> -H <lawn_height> -m <X,Y,O> [<X,Y,O>]
 ```
 
-You must specify
+You must specify mower as 'X,Y,O' with X and Y coordinates and O the start orientation (S/O/N/E).
 
 ### File input usage
+
+```
+echo -e "5 5\n1 2 O\n3 4 S\n" | lawnboy -i -o
+```
 
 ## TODO
 

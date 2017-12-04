@@ -24,11 +24,10 @@ class Lawn(object):
         """
         self.mowers.append(self.mower_cls(self, x, y, o))
 
-    def cut(self):
+    def mow(self):
         """
         Output mower instructions
         """
-        self.draw()
         raise NotImplementedError()
 
     def draw(self):
@@ -65,7 +64,7 @@ class NaiveLawn(Lawn):
             self.flow = 'vertical'
         logger.debug('Flow is : %s' % self.flow)
 
-    def cut(self):
+    def mow(self):
         count = 0
         self.draw()
         while self.remaining_lawn() != 0:
@@ -75,12 +74,11 @@ class NaiveLawn(Lawn):
             self.draw()
             # Anti infinite loop
             if count > (self.height * self.width * 2):
-                raise Exception('No solution found')
+                raise Exception('Did not find a solution, mowing incomplete')
             count += 1
-        else:
-            logger.debug('Completed in %s moves' % count)
 
-        return count,
+        logger.debug('Mow completed in %s moves' % count)
+        return count
 
     def remaining_lawn(self):
         count = 0

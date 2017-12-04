@@ -12,10 +12,10 @@ class Mower(object):
     orientations = 'SONE'
 
     def __init__(self, lawn, x, y, o):
-        if x < 0 or x > lawn.width:
+        if x < 0 or x > lawn.width - 1:
             raise Exception('Mower X "%s" is invalid' % x)
         self.x = x
-        if y < 0 or y > lawn.height:
+        if y < 0 or y > lawn.height - 1:
             raise Exception('Mower Y "%s" is invalid' % y)
         self.y = y
         if o not in self.orientations:
