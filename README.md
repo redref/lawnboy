@@ -32,11 +32,10 @@ You must specify
 
 ## TODO
 
-Naive stategy is ok when initial positions are not close. This strategy need to be improved to manage all cases.
-
-Testing.
-
-Collisions.
+ * Naive stategy is ok when initial positions are not close. This strategy need to be improved to manage all cases.
+ * Testing.
+ * Collisions between mowers
+ * Upload to pypi
 
 
 

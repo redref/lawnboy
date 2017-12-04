@@ -1,0 +1,23 @@
+language: python
+
+python:
+  - "3.5"
+
+# All envs
+env:
+  - TOX_ENV=py27
+  - TOX_ENV=py35
+
+cache:
+  directories:
+  - $HOME/.cache/pip
+
+install:
+  - pip install tox
+  - pip install coveralls
+
+script:
+  - tox -e $TOX_ENV
+
+after_success:
+  - coveralls

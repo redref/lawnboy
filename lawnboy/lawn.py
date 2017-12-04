@@ -72,12 +72,14 @@ class NaiveLawn(Lawn):
                 logger.debug(mower)
                 mower.move()
             self.draw()
-            # Anti inifinite loop
+            # Anti infinite loop
             if count > (self.height * self.width * 2):
-                break
+                raise Exception('No solution found')
             count += 1
         else:
             logger.debug('Completed in %s moves' % count)
+
+        return count,
 
     def remaining_lawn(self):
         count = 0

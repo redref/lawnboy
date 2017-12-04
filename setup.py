@@ -1,8 +1,25 @@
+import os
 from setuptools import setup, find_packages
+from subprocess import check_output, CalledProcessError
+
+version_file = os.path.join(
+    os.path.dirname(__file__),
+    'lawnboy', '_version.py'
+)
+
+try:
+    version = check_output(
+        'git describe --tags', shell=True).decode('utf-8').strip()
+    with open(version_file, 'w+') as f:
+        f.write("version = '%s'\n" % version)
+except CalledProcessError:
+    # Source tree (no git)
+    # Load version from file
+    from lawnboy._version import version
 
 setup(
     name='lawnboy',
-    version='0.1',
+    version=version,
     author='Anthony Bescond',
     packages=find_packages(),
     license='Apache License 2.0',

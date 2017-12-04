@@ -3,7 +3,8 @@ import logging
 
 import lawnboy.lawn
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
 
 strategies = [
     'naive',
@@ -28,7 +29,13 @@ def main():
     parser.add_argument(
         '-s', '--strategy', choices=['naive'], default='naive',
         help='Move strategy class')
+    parser.add_argument(
+        '-d', '--debug', action='store_true',
+        help='Move strategy class')
     args = parser.parse_args()
+
+    if args.debug:
+        logger.setLevel(logging.DEBUG)
 
     lawn_cls = getattr(lawnboy.lawn, '%sLawn' % args.strategy.capitalize())
 
