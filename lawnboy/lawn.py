@@ -35,6 +35,8 @@ class Lawn(object):
         Output intermediate drawing on log output
         (not suitable on really big lawns)
         """
+        if not logger.isEnabledFor(logging.DEBUG):
+            return
         logger.debug(''.join(['-' for i in range(self.width)]))
         for line in reversed(self.state):
             print_line = ''

@@ -40,10 +40,8 @@ echo -e "5 5\n1 2 O\n3 4 S\n" | lawnboy -i -o
 
 ## TODO
 
- * Naive stategy is ok when initial positions are not close. This strategy need to be improved to manage all cases.
- * Testing.
- * Collisions between mowers
- * Upload to pypi
+ * Naive stategy does the job, but is far from optimized. A predictive strategy might suite the need.
+ * Release to repository (Pypi)
 
 
 

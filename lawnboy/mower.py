@@ -36,6 +36,19 @@ class Mower(object):
             return 'L'
         return 'R'
 
+    def do_forward(self):
+        x = self.x
+        y = self.y
+        if self.o == 'S':
+            y = y - 1
+        elif self.o == 'N':
+            y = y + 1
+        elif self.o == 'O':
+            x = x - 1
+        elif self.o == 'E':
+            x = x + 1
+        return x, y
+
     def do_move(self, instruction):
         """
         Keep coords + lawn state up to date
@@ -56,14 +69,7 @@ class Mower(object):
                 self.o = self.orientations[-1]
         elif instruction == 'F':
             self.lawn.state[self.y][self.x] = 2
-            if self.o == 'S':
-                self.y -= 1
-            elif self.o == 'N':
-                self.y += 1
-            elif self.o == 'O':
-                self.x -= 1
-            elif self.o == 'E':
-                self.x += 1
+            self.x, self.y = self.do_forward()
             self.lawn.state[self.y][self.x] = 1
         else:
             raise Exception('Instruction "%s" is not valid' % instruction)
@@ -90,6 +96,20 @@ class NaiveMower(Mower):
 
     def __repr__(self):
         return "X:%s Y:%s O:%s D:%s" % (self.x, self.y, self.o, self.direction)
+
+    def do_move(self, instruction):
+        if instruction == 'F':
+            x, y = self.do_forward()
+            if self.lawn.state[y][x] == 1:
+                # Collision
+                return self.collision()
+        super(NaiveMower, self).do_move(instruction)
+
+    def collision(self):
+        """
+        Fine collision handling
+        """
+        return self.do_move('R')
 
     def move(self):
         """
