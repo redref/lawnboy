@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import re
 import sys
 from pkg_resources import load_entry_point

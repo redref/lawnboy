@@ -1,5 +1,9 @@
 # LawnBoy
 
+[![Build Status](https://travis-ci.org/redref/lawnboy.svg?branch=master)](https://travis-ci.org/redref/lawnboy)
+[![Coverage Status](https://coveralls.io/repos/github/redref/lawnboy/badge.svg?branch=master)](https://coveralls.io/github/redref/lawnboy?branch=master)
+
+
 ## Objective
 
 Control and optimise mower(s) move in order to mill your lawn. The program result is instructions to be executed sequentially by mowers.
