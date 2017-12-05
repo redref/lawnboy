@@ -3,6 +3,9 @@ import logging
 
 logger = logging.getLogger('lawnboy')
 
+GRASS = False
+CLEAN = True
+
 
 class Mower(object):
     """
@@ -23,8 +26,8 @@ class Mower(object):
         self.o = o
 
         #
-        lawn.state[y][x] = 1
         self.lawn = lawn
+        self.lawn.do_cut(x, y)
         self.instructions = ''
 
     def orientate_to(self, to):
@@ -68,10 +71,9 @@ class Mower(object):
             else:
                 self.o = self.orientations[-1]
         elif instruction == 'F':
-            self.lawn.state[self.y][self.x] = 2
+            self.lawn.state[self.y][self.x] = CLEAN
             self.x, self.y = self.do_forward()
             self.lawn.do_cut(self.x, self.y)
-            self.lawn.state[self.y][self.x] = 1
         else:
             raise Exception('Instruction "%s" is not valid' % instruction)
 
@@ -101,9 +103,10 @@ class NaiveMower(Mower):
     def do_move(self, instruction):
         if instruction == 'F':
             x, y = self.do_forward()
-            if self.lawn.state[y][x] == 1:
-                # Collision
-                return self.collision()
+            for mower in self.lawn.mowers:
+                if x == mower.x and y == mower.y:
+                    # Collision
+                    return self.collision()
         super(NaiveMower, self).do_move(instruction)
 
     def collision(self):
@@ -226,7 +229,7 @@ class NaiveMower(Mower):
 
         # Iterate on grass
         for pos in it(arg):
-            if pos == 0:
+            if pos == GRASS:
                 return False, False
         return True, False
 

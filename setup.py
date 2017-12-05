@@ -27,6 +27,7 @@ setup(
     description='Mower movement plan.',
     install_requires=[
         'argparse',
+        'bitarray',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',

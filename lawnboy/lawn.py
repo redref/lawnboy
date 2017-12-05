@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
+from bitarray import bitarray
 
-from lawnboy.mower import *
+from lawnboy.mower import Mower, NaiveMower, GRASS, CLEAN
 
 logger = logging.getLogger('lawnboy')
 
@@ -14,7 +15,7 @@ class Lawn(object):
         self.height = height + 1
         # Local lawn state per coord
         self.state = [
-            [0 for w in range(self.width)]
+            bitarray([GRASS for w in range(self.width)])
             for h in range(self.height)]
         self.mowers = []
         self.remaining = self.width * self.height
@@ -24,11 +25,11 @@ class Lawn(object):
         Init mower on this lawn
         """
         self.mowers.append(self.mower_cls(self, x, y, o))
-        self.remaining -= 1
 
     def do_cut(self, x, y):
-        if self.state[y][x] == 0:
+        if self.state[y][x] == GRASS:
             self.remaining -= 1
+            self.state[y][x] = CLEAN
 
     def mow(self):
         """
@@ -44,15 +45,18 @@ class Lawn(object):
         if not logger.isEnabledFor(logging.DEBUG):
             return
         logger.debug(''.join(['-' for i in range(self.width)]))
-        for line in reversed(self.state):
+        for y, line in enumerate(reversed(self.state)):
             print_line = ''
-            for pos in line:
-                if pos == 0:
-                    print_line += " "
-                elif pos == 1:
-                    print_line += "#"
+            for x, pos in enumerate(line):
+                if pos == GRASS:
+                    print_line += ' '
                 else:
-                    print_line += "X"
+                    for mower in self.mowers:
+                        if x == mower.x and y == mower.y:
+                            print_line += '#'
+                            break
+                    else:
+                        print_line += 'X'
             logger.debug(print_line)
         logger.debug(''.join(['-' for i in range(self.width)]))
 
