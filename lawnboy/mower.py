@@ -75,6 +75,7 @@ class Mower(object):
             self.lawn.do_cut(self.x, self.y)
         else:
             raise Exception('Instruction "%s" is not valid' % instruction)
+        return instruction
 
 
 class NaiveMower(Mower):
@@ -106,7 +107,7 @@ class NaiveMower(Mower):
                 if x == mower.x and y == mower.y:
                     # Collision
                     return self.collision()
-        super(NaiveMower, self).do_move(instruction)
+        return super(NaiveMower, self).do_move(instruction)
 
     def collision(self):
         """

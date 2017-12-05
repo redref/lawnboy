@@ -36,7 +36,7 @@ class Lawn(object):
         """
         Output mower instructions
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def draw(self):
         """
@@ -53,7 +53,7 @@ class Lawn(object):
                     print_line += ' '
                 else:
                     for mower in self.mowers:
-                        if x == mower.x and y == mower.y:
+                        if x == mower.x and (self.height - 1 - y) == mower.y:
                             print_line += '#'
                             break
                     else:
@@ -83,8 +83,10 @@ class NaiveLawn(Lawn):
         self.draw()
         while self.remaining > 0:
             for mower in self.mowers:
-                logger.debug(mower)
-                mower.move()
+                i = mower.move()
+                if self.debug:
+                    logger.debug(mower)
+                    logger.debug('Instruction %s' % i)
             self.draw()
             # Anti infinite loop
             if count > max_iterate:
