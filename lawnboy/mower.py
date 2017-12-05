@@ -70,6 +70,7 @@ class Mower(object):
         elif instruction == 'F':
             self.lawn.state[self.y][self.x] = 2
             self.x, self.y = self.do_forward()
+            self.lawn.do_cut(self.x, self.y)
             self.lawn.state[self.y][self.x] = 1
         else:
             raise Exception('Instruction "%s" is not valid' % instruction)
@@ -208,16 +209,31 @@ class NaiveMower(Mower):
         """
         Check a lane (vertical or horizontal) for status
         """
-        done = True
-        for i, line in enumerate(self.lawn.state):
-            if y is not None and y != i:
-                continue
-            for j, pos in enumerate(line):
-                if x is not None and x != j:
-                    continue
-                if pos == 1 and (i != self.y or j != self.x):
-                    # Another Mower on this lane, consider done
-                    return True, (j, i)
-                if pos == 0:
-                    done = False
-        return done, None
+        # If another mower on the lane, skip it
+        for mower in self.lawn.mowers:
+            if x is not None and mower.x == x and self.y != mower.y:
+                return True, True
+            if y is not None and mower.y == y and self.x != mower.x:
+                return True, True
+
+        # Choose iterate
+        if y is not None:
+            it = self.is_lane_done_iterator_y
+            arg = y
+        else:
+            it = self.is_lane_done_iterator_x
+            arg = x
+
+        # Iterate on grass
+        for pos in it(arg):
+            if pos == 0:
+                return False, False
+        return True, False
+
+    def is_lane_done_iterator_y(self, y):
+        for i in self.lawn.state[y]:
+            yield i
+
+    def is_lane_done_iterator_x(self, x):
+        for i in self.lawn.state:
+            yield i[x]

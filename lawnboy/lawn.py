@@ -17,12 +17,18 @@ class Lawn(object):
             [0 for w in range(self.width)]
             for h in range(self.height)]
         self.mowers = []
+        self.remaining = self.width * self.height
 
     def add_mower(self, x, y, o):
         """
         Init mower on this lawn
         """
         self.mowers.append(self.mower_cls(self, x, y, o))
+        self.remaining -= 1
+
+    def do_cut(self, x, y):
+        if self.state[y][x] == 0:
+            self.remaining -= 1
 
     def mow(self):
         """
@@ -67,25 +73,18 @@ class NaiveLawn(Lawn):
         logger.debug('Flow is : %s' % self.flow)
 
     def mow(self):
+        max_iterate = self.height * self.width * 2
         count = 0
         self.draw()
-        while self.remaining_lawn() != 0:
+        while self.remaining > 0:
             for mower in self.mowers:
                 logger.debug(mower)
                 mower.move()
             self.draw()
             # Anti infinite loop
-            if count > (self.height * self.width * 2):
+            if count > max_iterate:
                 raise Exception('Did not find a solution, mowing incomplete')
             count += 1
 
         logger.debug('Mow completed in %s moves' % count)
-        return count
-
-    def remaining_lawn(self):
-        count = 0
-        for line in self.state:
-            for pos in line:
-                if pos == 0:
-                    count += 1
         return count

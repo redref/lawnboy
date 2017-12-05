@@ -21,6 +21,6 @@ def test_collision(mocker):
 
 
 def test_lot_of_lawn():
-    args = '-H 100 -W 100 -m 0,0,O 0,100,N 100,0,S 100,100,E -s naive'
+    args = '-H 50 -W 50 -m 0,0,O 0,50,N 50,0,S 50,50,E -s naive'
     ret = lawnboy.main(args)
     assert ret == 0
