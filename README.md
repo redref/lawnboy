@@ -42,6 +42,7 @@ echo -e "5 5\n1 2 O\n3 4 S\n" | lawnboy -i -o
 
  * Naive stategy does the job, but is far from optimized. A predictive strategy might suite the need.
  * Release to repository (Pypi)
+ * Do not be CPU bound (lead : grass cut reservation #lock)
 
 
 
