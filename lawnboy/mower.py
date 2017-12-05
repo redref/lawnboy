@@ -56,7 +56,6 @@ class Mower(object):
         """
         Keep coords + lawn state up to date
         """
-        logger.debug('Move %s' % instruction)
         self.instructions += instruction
         if instruction == 'R':
             i = self.orientations.index(self.o)
@@ -234,8 +233,8 @@ class NaiveMower(Mower):
         return True, False
 
     def is_lane_done_iterator_y(self, y):
-        for i in self.lawn.state[y]:
-            yield i
+        if GRASS in self.lawn.state[y]:
+            yield GRASS
 
     def is_lane_done_iterator_x(self, x):
         for i in self.lawn.state:

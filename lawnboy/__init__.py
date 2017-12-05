@@ -90,7 +90,7 @@ def main(argv=None):
 
     # Init Lawn
     lawn_cls = getattr(lawnboy.lawn, '%sLawn' % args.strategy.capitalize())
-    lawn = lawn_cls(args.width, args.height)
+    lawn = lawn_cls(args.width, args.height, debug=args.debug)
 
     # Init Mowers
     for mower in args.mower:

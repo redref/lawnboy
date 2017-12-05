@@ -31,6 +31,11 @@ def test_simple_mow():
     assert ret == 0
 
 
+def test_debug():
+    ret = lawnboy.main('-H 5 -W 5 -m 1,2,O -d')
+    assert ret == 0
+
+
 def test_double_mow():
     ret = lawnboy.main('-H 5 -W 5 -m 1,2,O 3,4,N')
     assert ret == 0

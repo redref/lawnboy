@@ -10,7 +10,7 @@ logger = logging.getLogger('lawnboy')
 class Lawn(object):
     mower_cls = Mower
 
-    def __init__(self, width, height):
+    def __init__(self, width, height, debug=False):
         self.width = width + 1  # indexed at 0
         self.height = height + 1
         # Local lawn state per coord
@@ -19,6 +19,7 @@ class Lawn(object):
             for h in range(self.height)]
         self.mowers = []
         self.remaining = self.width * self.height
+        self.debug = debug
 
     def add_mower(self, x, y, o):
         """
@@ -42,7 +43,7 @@ class Lawn(object):
         Output intermediate drawing on log output
         (not suitable on really big lawns)
         """
-        if not logger.isEnabledFor(logging.DEBUG):
+        if not self.debug:
             return
         logger.debug(''.join(['-' for i in range(self.width)]))
         for y, line in enumerate(reversed(self.state)):
